@@ -1,35 +1,16 @@
 
 @import "tailwindcss";
 
-@utility font-script {
-  font-family: 'Alex Brush', cursive;
+@theme {
+  --animate-gcaaaTicker: gcaaaTicker 35s linear infinite;
+
+  @keyframes gcaaaTicker {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
-
-@utility font-cinzel {
-  font-family: 'Cinzel', serif;
-}
-
-@utility font-cormorant {
-  font-family: 'Cormorant Garamond', serif;
-}
-
-@utility font-hindi {
-  font-family: 'Rozha One', 'Yatra One', serif;
-}
-
-
-/* Custom Deckle Edge / Torn Paper Clip Paths and Shadow Effects */
-.deckle-border {
-  clip-path: polygon(
-    0% 0.5%, 3% 0%, 7% 0.8%, 12% 0.2%, 17% 0.9%, 23% 0.1%, 29% 0.7%, 35% 0.2%, 42% 0.8%, 48% 0.1%, 55% 0.9%, 62% 0.3%, 68% 0.7%, 75% 0.1%, 82% 0.8%, 88% 0.2%, 94% 0.9%, 100% 0.3%,
-    99.7% 8%, 100% 15%, 99.4% 22%, 99.8% 29%, 99.2% 37%, 99.9% 44%, 99.3% 52%, 99.8% 59%, 99.1% 67%, 99.9% 74%, 99.3% 82%, 99.8% 89%, 99.2% 96%, 100% 100%,
-    94% 99.3%, 88% 99.8%, 82% 99.2%, 75% 99.9%, 68% 99.3%, 62% 99.7%, 55% 99.1%, 48% 99.9%, 42% 99.2%, 35% 99.8%, 29% 99.3%, 23% 99.9%, 17% 99.1%, 12% 99.8%, 7% 99.2%, 3% 100%, 0% 99.5%,
-    0.6% 91%, 0.1% 83%, 0.8% 76%, 0.2% 68%, 0.9% 60%, 0.1% 53%, 0.7% 45%, 0.2% 38%, 0.8% 30%, 0.1% 23%, 0.7% 15%, 0.2% 8%
-  );
-}
-
-.stamp-edge {
-  background: radial-gradient(circle, transparent 60%, #fff 60%);
-  background-size: 8px 8px;
-}
-

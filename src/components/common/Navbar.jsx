@@ -1,320 +1,334 @@
 
-import { useState, useEffect } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import {
-  Menu,
-  X,
-  ArrowUpRight,
-  ChevronDown,
-  CalendarDays,
-  Sparkles,
-} from "lucide-react";
-
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import gcaaaLogo from "../../assets/images/logo.png";
+import {
+  FaFacebookF,
+  FaLinkedinIn,
+  FaTwitter,
+  FaYoutube,
+} from "react-icons/fa";
 
-const navItems = [
+const navigation = [
+  { label: "Home", href: "/" },
+
   {
-    name: "Home",
-    path: "/",
-  },
-  {
-    name: "About Us",
-    path: "/about",
+    label: "About Us",
+    href: "/about",
     children: [
-      { name: "Our Legacy", path: "/about#legacy" },
-      { name: "Association", path: "/about#association" },
-      { name: "Patron Messages", path: "/about#patrons" },
+      { label: "About GCAAA", href: "/about" },
+      { label: "Our Heritage", href: "/about#heritage" },
+      { label: "Association Objectives", href: "/about#objectives" },
+      { label: "Office Bearers", href: "/committee" },
     ],
   },
+
   {
-    name: "Dharohar 2026",
-    path: "/dharohar",
-  },
-  {
-    name: "Batches",
-    path: "/cohort",
+    label: "Dharohar 2026",
+    href: "/dharohar",
     children: [
-      { name: "Batch 2001", path: "/cohort" },
-      { name: "Silver Jubilee", path: "/cohort#silver-jubilee" },
-      { name: "Ruby Jubilee", path: "/dharohar#ruby-jubilee" },
+      { label: "Event Overview", href: "/dharohar" },
+      { label: "Event Schedule", href: "/dharohar#schedule" },
+      { label: "Venue & Location", href: "/dharohar#venue" },
+      { label: "Register / RSVP", href: "/register" },
     ],
   },
+
   {
-    name: "Committee",
-    path: "/committee",
+    label: "Alumni Batches",
+    href: "/batches",
+    children: [
+      { label: "Silver Jubilee Batch · 2001", href: "/batches/2001" },
+      { label: "Ruby Jubilee Batch · 1986", href: "/batches/1986" },
+      { label: "All Alumni Batches", href: "/batches" },
+    ],
   },
+
   {
-    name: "Gallery",
-    path: "/gallery",
+    label: "Committee",
+    href: "/committee",
+    children: [
+      { label: "Executive Committee", href: "/committee" },
+      { label: "President's Message", href: "/committee#president" },
+      { label: "Office Bearers", href: "/committee#office-bearers" },
+    ],
   },
+
   {
-    name: "Sponsors",
-    path: "/#sponsors",
+    label: "Gallery",
+    href: "/gallery",
+    children: [
+      { label: "Photo Gallery", href: "/gallery" },
+      { label: "Past Alumni Meets", href: "/gallery#past-meets" },
+    ],
   },
+
   {
-    name: "Contact",
-    path: "/contact",
+    label: "Sponsors",
+    href: "/sponsors",
+    children: [
+      { label: "Our Sponsors", href: "/sponsors" },
+      {
+        label: "Sponsorship Opportunities",
+        href: "/sponsors#opportunities",
+      },
+    ],
+  },
+
+  {
+    label: "Contact Us",
+    href: "/contact",
+    children: [
+      { label: "Contact Details", href: "/contact" },
+      { label: "Location & Directions", href: "/contact#location" },
+      { label: "Send an Enquiry", href: "/contact#enquiry" },
+    ],
   },
 ];
 
-export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null);
-  const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
+const Navbar = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const closeMobileMenu = () => {
+    setMobileOpen(false);
+    setOpenSubmenu(null);
+  };
 
-  const closeMenu = () => {
-    setMenuOpen(false);
-    setOpenDropdown(null);
+  const toggleSubmenu = (label) => {
+    setOpenSubmenu((current) => (current === label ? null : label));
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full font-sans transition-all duration-300">
-      {/* SUBTLE RED-GOLD TOP LINE */}
-      <div className="h-[2px] w-full bg-gradient-to-r from-[#8B0000]/40 via-[#D5A64A]/30 to-[#8B0000]/40" />
+    <header className="relative z-50 w-full bg-white text-black">
 
-      {/* TOP BRANDING BAR (COMPACT HEIGHT & SOFT BORDERS) */}
-      <div className="border-b border-stone-200/60 bg-[#F9F7F2]/90 backdrop-blur-md transition-all duration-300">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between px-4 py-2 sm:px-8 lg:px-12 lg:py-2">
+      {/* TOP RED BAR */}
+      <div className="bg-[#B70D2B] text-white">
+        <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-2 px-4 py-1.5 sm:flex-row sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs sm:justify-start sm:text-sm">
+            <a
+              href="mailto:gcaaa07@gmail.com"
+              className="flex items-center gap-2 hover:opacity-80"
+            >
+              <span className="text-lg">☎</span>
+              <span>gcaaa07@gmail.com</span>
+            </a>
 
-          {/* LEFT: LOGO + BRAND NAME */}
+            <span className="hidden h-5 w-px bg-white/40 sm:block" />
+
+            <div className="flex items-center gap-2">
+              <span className="text-lg">◷</span>
+              <span>Alumni Association · Lucknow</span>
+            </div>
+          </div>
+
+          {/* SOCIAL MEDIA ICONS */}
+<div className="flex items-center gap-5 text-white">
+  <a
+    href="https://www.facebook.com/"
+    target="_blank"
+    rel="noreferrer"
+    aria-label="Facebook"
+    className="transition-opacity hover:opacity-70"
+  >
+    <FaFacebookF size={17} />
+  </a>
+
+  <a
+    href="https://www.linkedin.com/"
+    target="_blank"
+    rel="noreferrer"
+    aria-label="LinkedIn"
+    className="transition-opacity hover:opacity-70"
+  >
+    <FaLinkedinIn size={17} />
+  </a>
+
+  <a
+    href="https://twitter.com/"
+    target="_blank"
+    rel="noreferrer"
+    aria-label="Twitter"
+    className="transition-opacity hover:opacity-70"
+  >
+    <FaTwitter size={18} />
+  </a>
+
+  <a
+    href="https://www.youtube.com/"
+    target="_blank"
+    rel="noreferrer"
+    aria-label="YouTube"
+    className="transition-opacity hover:opacity-70"
+  >
+    <FaYoutube size={20} />
+  </a>
+</div>
+        </div>
+      </div>
+
+      {/* BRAND SECTION */}
+      <div className="border-b border-gray-200 bg-white">
+        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-1.5 sm:px-6 lg:px-8">
           <Link
             to="/"
-            onClick={closeMenu}
-            className="group flex items-center gap-3.5 sm:gap-4"
+            onClick={closeMobileMenu}
+            className="flex min-w-0 items-center gap-3"
           >
-            {/* Enlarged Logo Container */}
-            <div className="relative flex items-center justify-center rounded-md border border-stone-200/60 bg-white/80 p-1.5 shadow-2xs transition-all duration-300 group-hover:border-[#D5A64A]/30 group-hover:shadow-xs">
-              <img
-                src={gcaaaLogo}
-                alt="GCAAA Logo"
-                className="h-13 w-auto min-w-[48px] object-contain transition-transform duration-300 group-hover:scale-105 sm:h-15 lg:h-18 lg:min-w-[62px]"
-              />
-            </div>
+            <img
+              src={gcaaaLogo}
+              alt="GCAAA Logo"
+              className="h-11 w-11 shrink-0 object-contain sm:h-12 sm:w-12"
+            />
 
-            <div>
-              <h1 className="font-serif text-2xl font-bold tracking-tight text-[#231F1D] sm:text-3xl lg:text-3xl">
+            <div className="min-w-0">
+              <h1 className="text-xl font-bold leading-tight tracking-wide text-black sm:text-2xl">
                 GCAAA
               </h1>
-
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8B0000] sm:text-[11px]">
+              <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#B70D2B] sm:text-xs">
                 Alumni Association
               </p>
-
-              <p className="hidden text-[11px] text-stone-500 transition-colors group-hover:text-stone-700 sm:block">
+              <p className="mt-1 hidden text-xs text-gray-600 sm:block">
                 Government College of Architecture, Lucknow
               </p>
             </div>
           </Link>
 
-          {/* RIGHT: SAVE THE DATE BADGE (MUTED GOLD ACCENTS & SOFT BORDER) */}
-          <div className="hidden items-center gap-3 rounded-lg border border-stone-200/60 bg-white/80 px-3.5 py-1.5 shadow-2xs backdrop-blur-xs sm:flex lg:px-4">
-            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#8B0000]/5 text-[#8B0000]">
-              <CalendarDays size={19} className="text-[#8B0000]" />
+          <div className="hidden items-center gap-5 md:flex">
+            <div className="border-l-2 border-[#B70D2B] pl-4">
+              <p className="text-xs text-gray-500">ANNUAL ALUMNI MEET</p>
+              <p className="mt-1 text-sm font-semibold">
+                28 November 2026
+              </p>
             </div>
 
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-400">
-                Save The Date
-              </p>
-              <p className="text-xs font-semibold tracking-tight text-[#231F1D] lg:text-sm">
-                28 Nov, 2026
-              </p>
-            </div>
+            <Link
+              to="/register"
+              className="bg-[#B70D2B] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-black"
+            >
+              Register / RSVP
+            </Link>
           </div>
 
           {/* MOBILE MENU BUTTON */}
           <button
             type="button"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-            aria-expanded={menuOpen}
-            className="rounded-md border border-stone-200/60 bg-white p-2 text-[#231F1D] shadow-2xs transition hover:bg-[#8B0000] hover:text-white lg:hidden"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            className="flex h-10 w-10 shrink-0 items-center justify-center border border-gray-300 text-2xl hover:border-[#B70D2B] hover:text-[#B70D2B] md:hidden"
           >
-            {menuOpen ? <X size={21} /> : <Menu size={21} />}
+            {mobileOpen ? "×" : "☰"}
           </button>
-
         </div>
       </div>
 
-      {/* DESKTOP NAVIGATION BAR (CENTERED MENUS & BALANCED REFINED CTA) */}
-      <nav className={`hidden border-b border-stone-200/60 bg-white/95 backdrop-blur-md lg:block ${scrolled ? "shadow-2xs" : ""}`}>
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between px-6 xl:px-12">
-
-          {/* CENTER: NAVIGATION LINKS */}
-          <div className="flex flex-1 items-center justify-center gap-7 xl:gap-10 py-3">
-            {navItems.map((item) => {
-              const isParentActive =
-                location.pathname === item.path ||
-                (item.children &&
-                  item.children.some((child) =>
-                    location.pathname.startsWith(child.path.split("#")[0])
-                  ));
-
-              return (
-                <div key={item.name} className="group relative">
-                  <NavLink
-                    to={item.path}
-                    end={item.path === "/"}
-                    className={({ isActive }) =>
-                      `relative flex items-center gap-1.5 py-1 text-[14px] font-medium tracking-wide transition-all duration-200 xl:text-[14.5px] ${
-                        isActive || isParentActive
-                          ? "text-[#8B0000]"
-                          : "text-stone-700 hover:text-[#8B0000]"
-                      }`
-                    }
-                  >
-                    <span>{item.name}</span>
-
-                    {item.children && (
-                      <ChevronDown
-                        size={14}
-                        className="text-stone-400 transition-transform duration-300 group-hover:rotate-180 group-hover:text-[#8B0000]"
-                      />
-                    )}
-
-                    {/* ACTIVE / HOVER LINE INDICATOR */}
-                    <span
-                      className={`absolute -bottom-3 left-1/2 h-[2px] -translate-x-1/2 rounded-full bg-[#8B0000] transition-all duration-300 ${
-                        isParentActive || location.pathname === item.path
-                          ? "w-full"
-                          : "w-0 group-hover:w-full"
-                      }`}
-                    />
-                  </NavLink>
-
-                  {/* SUBTLE DROPDOWN */}
-                  {item.children && (
-                    <div className="invisible absolute left-1/2 top-full z-50 min-w-[245px] -translate-x-1/2 translate-y-2 rounded-xl border border-stone-200/90 bg-white p-2 opacity-0 shadow-xl backdrop-blur-md transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.name}
-                          to={child.path}
-                          className="flex items-center justify-between rounded-lg px-4.5 py-2.5 text-sm font-semibold text-stone-700 transition hover:bg-[#8B0000]/5 hover:text-[#8B0000]"
-                        >
-                          <span>{child.name}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* RIGHT: REFINED RE-BALANCED REGISTER BUTTON */}
-          <div className="flex shrink-0 items-center justify-end pl-4">
-            <Link
-              to="/register"
-              className="group inline-flex items-center gap-1.5 rounded-md bg-[#8B0000] px-4 py-2 text-xs font-medium tracking-wide text-white shadow-2xs transition-all duration-200 hover:bg-[#730000] hover:shadow-xs"
-            >
-              <span>Register / RSVP 2026</span>
-              <ArrowUpRight
-                size={15}
-                className="text-white/80 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white"
-              />
-            </Link>
-          </div>
-
-        </div>
-      </nav>
-
-      {/* MOBILE NAVIGATION DRAWER */}
-      {menuOpen && (
-        <nav className="max-h-[calc(100vh-80px)] overflow-y-auto border-b border-stone-200 bg-white/98 px-5 py-4 shadow-2xl backdrop-blur-xl lg:hidden">
-          <div className="mb-4 flex items-center justify-between border-b border-stone-100 pb-3">
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#D5A64A]">
-              Explore GCAAA
-            </span>
-            <span className="rounded-full bg-[#8B0000]/10 px-2.5 py-1 text-xs font-bold text-[#8B0000]">
-              Dharohar 2026
-            </span>
-          </div>
-
-          {navItems.map((item) => (
-            <div key={item.name} className="border-b border-stone-100">
-              <div className="flex items-center justify-between">
-                <NavLink
-                  to={item.path}
-                  end={item.path === "/"}
-                  onClick={closeMenu}
-                  className={({ isActive }) =>
-                    `flex-1 py-3.5 text-base font-semibold transition ${
-                      isActive
-                        ? "text-[#8B0000]"
-                        : "text-stone-800 hover:text-[#8B0000]"
-                    }`
-                  }
-                >
-                  {item.name}
-                </NavLink>
+      {/* DESKTOP NAVIGATION */}
+      <nav
+        aria-label="Main navigation"
+        className="hidden border-b border-gray-200 bg-white md:block"
+      >
+        <div className="mx-auto flex max-w-[1400px] items-stretch justify-between px-4 sm:px-6 lg:px-8">
+          {navigation.map((item) => (
+            <div key={item.label} className="group relative">
+              <Link
+                to={item.href}
+                className="flex min-h-[46px] items-center gap-2 border-b-[3px] border-transparent px-2 py-2 text-sm font-medium text-black transition-colors hover:border-[#B70D2B] hover:text-[#B70D2B] lg:px-3"
+              >
+                {item.label}
 
                 {item.children && (
-                  <button
-                    type="button"
-                    aria-label={`Toggle ${item.name} submenu`}
-                    aria-expanded={openDropdown === item.name}
-                    onClick={() =>
-                      setOpenDropdown(
-                        openDropdown === item.name ? null : item.name
-                      )
-                    }
-                    className="p-3 text-stone-500 hover:text-[#8B0000]"
-                  >
-                    <ChevronDown
-                      size={18}
-                      className={`transition-transform duration-200 ${
-                        openDropdown === item.name ? "rotate-180 text-[#8B0000]" : ""
-                      }`}
-                    />
-                  </button>
+                  <span className="text-[10px] transition-transform group-hover:rotate-180">
+                    ▼
+                  </span>
                 )}
-              </div>
+              </Link>
 
-              {item.children && openDropdown === item.name && (
-                <div className="mb-3 ml-3 border-l-2 border-[#D5A64A] pl-4">
+              {/* DROPDOWN */}
+              {item.children && (
+                <div className="invisible absolute left-0 top-full z-50 min-w-[240px] border-t-2 border-[#B70D2B] bg-white opacity-0 shadow-lg transition-all duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                   {item.children.map((child) => (
                     <Link
-                      key={child.name}
-                      to={child.path}
-                      onClick={closeMenu}
-                      className="block py-2.5 text-sm font-medium text-stone-600 transition hover:text-[#8B0000]"
+                      key={child.label}
+                      to={child.href}
+                      className="block border-b border-gray-100 px-5 py-3 text-sm text-black transition-colors last:border-b-0 hover:bg-gray-50 hover:text-[#B70D2B]"
                     >
-                      {child.name}
+                      {child.label}
                     </Link>
                   ))}
                 </div>
               )}
             </div>
           ))}
+        </div>
+      </nav>
 
-          <Link
-            to="/"
-            onClick={closeMenu}
-            className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-[#8B0000] px-5 py-3.5 text-sm font-bold uppercase tracking-wider text-white shadow-md transition hover:bg-[#6E0000]"
-          >
-            Register for Dharohar 2026
-            <ArrowUpRight size={18} />
-          </Link>
+      {/* MOBILE NAVIGATION */}
+      {mobileOpen && (
+        <nav
+          aria-label="Mobile navigation"
+          className="border-t border-gray-200 bg-white md:hidden"
+        >
+          <div className="max-h-[75vh] overflow-y-auto px-4 py-3">
+            {navigation.map((item) => (
+              <div key={item.label} className="border-b border-gray-100">
+                <div className="flex items-center justify-between gap-3">
+                  <Link
+                    to={item.href}
+                    onClick={closeMobileMenu}
+                    className="flex-1 py-3 text-sm font-medium text-black hover:text-[#B70D2B]"
+                  >
+                    {item.label}
+                  </Link>
 
-          <p className="mt-4 text-center text-xs text-stone-500">
-            28 November 2026 · Faculty of Architecture & Planning, Lucknow
-          </p>
+                  {item.children && (
+                    <button
+                      type="button"
+                      onClick={() => toggleSubmenu(item.label)}
+                      aria-label={`Toggle ${item.label} submenu`}
+                      aria-expanded={openSubmenu === item.label}
+                      className="px-3 py-3 text-sm text-black hover:text-[#B70D2B]"
+                    >
+                      <span
+                        className={`inline-block transition-transform ${
+                          openSubmenu === item.label ? "rotate-180" : ""
+                        }`}
+                      >
+                        ▼
+                      </span>
+                    </button>
+                  )}
+                </div>
+
+                {item.children && openSubmenu === item.label && (
+                  <div className="mb-3 ml-3 border-l-2 border-[#B70D2B] pl-4">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.label}
+                        to={child.href}
+                        onClick={closeMobileMenu}
+                        className="block py-2.5 text-xs text-gray-700 hover:text-[#B70D2B]"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+
+            <Link
+              to="/register"
+              onClick={closeMobileMenu}
+              className="mt-4 block bg-[#B70D2B] px-4 py-3 text-center text-sm font-semibold text-white hover:bg-black"
+            >
+              Register / RSVP
+            </Link>
+          </div>
         </nav>
       )}
     </header>
   );
-}
+};
 
+export default Navbar;
